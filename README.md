@@ -28,3 +28,24 @@ Path: %SPARK_HOME%\bin
 
 HADOOP_HOME: <hadoop_home_dir>  
 Path: %HADOOP_HOME%\bin
+
+## MySQL Setup ##
+
+Steps to follow:
+- Install MySQL using Homebrew: `brew install mysql`
+- Start the MySQL service: `brew services start mysql`
+- Set a root password: `mysql_secure_installation`
+- Connect to MySQL: `mysql -u root -p`
+
+New user:
+
+`CREATE USER 'newuser'@'localhost' IDENTIFIED BY 'password';`
+
+`GRANT ALL PRIVILEGES ON *.* TO 'newuser'@'localhost' WITH GRANT OPTION;`
+
+`FLUSH PRIVILEGES;`
+
+Changing password:
+`ALTER USER 'user'@'localhost' IDENTIFIED BY 'new_password';`
+
+`FLUSH PRIVILEGES;`

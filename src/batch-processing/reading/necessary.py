@@ -11,14 +11,11 @@ def get_spark_session():
     """Get spark session."""
     log.info("Creating spark session...")
 
-    return (
-        SparkSession.builder
-        .appName("ReadingData")
-        .getOrCreate()
-    )
+    return SparkSession.builder.appName("ReadingData").getOrCreate()
+
 
 def read_data(session: SparkSession, path: str):
-    """Read data. """
+    """Read data."""
     log.info("Reading data...")
 
     return session.read.json(path, multiLine=True)
@@ -36,33 +33,21 @@ def get_cancelled_creators(data):
     """Retrieve all names of created_by with the status Cancelled."""
     log.info("Retrieving cancelled creators...")
 
-    return (
-        data.filter(col("status") == "Canceled")
-        .select(explode("created_by.name")
-        .alias("creator_name"))
-        .distinct()
-    )
+    return data.filter(col("status") == "Canceled").select(explode("created_by.name").alias("creator_name")).distinct()
 
 
 def get_popular_countries(data):
     """Retrieve all origin_country with popularity higher than 5.0."""
     log.info("Retrieving popular countries...")
 
-    return (
-        data.filter(col("popularity") > 5.0)
-        .select(explode("origin_country").alias("country"))
-        .distinct()
-    )
+    return data.filter(col("popularity") > 5.0).select(explode("origin_country").alias("country")).distinct()
 
 
 def get_short_series(data):
     """Retrieve all names of series with the number_of_episodes less than 100."""
     log.info("Retrieving short series...")
 
-    return (
-        data.filter(col("number_of_episodes") < 100)
-        .select("name")
-    )
+    return data.filter(col("number_of_episodes") < 100).select("name")
 
 
 def write_to_parquet(data, path: str) -> None:

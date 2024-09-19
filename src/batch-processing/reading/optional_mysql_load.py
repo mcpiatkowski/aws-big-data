@@ -16,11 +16,9 @@ def create_connection():
     """Create a database connection."""
 
     return mysql.connector.connect(
-        host="localhost",
-        user=os.getenv("MYSQL_USER"),
-        password=os.getenv("MYSQL_PASSWORD"),
-        database="aws_big_data"
+        host="localhost", user=os.getenv("MYSQL_USER"), password=os.getenv("MYSQL_PASSWORD"), database="aws_big_data"
     )
+
 
 def create_tvs_table(_cursor) -> None:
     """Create TV series table."""
@@ -51,7 +49,8 @@ def clean_data(data: pd.DataFrame) -> pd.DataFrame:
     """Clean data."""
 
     return (
-        data[data["id"] != 60606].assign(last_air_date=pd.to_datetime(data["last_air_date"], errors="coerce").dt.date)
+        data[data["id"] != 60606]
+        .assign(last_air_date=pd.to_datetime(data["last_air_date"], errors="coerce").dt.date)
         .assign(first_air_date=pd.to_datetime(data["first_air_date"], errors="coerce").dt.date)
         .assign(name=data["name"].replace("", None))
     ).dropna(subset=["name"])
@@ -69,20 +68,20 @@ def insert_data(_cursor, data: pd.DataFrame) -> None:
 
     for _, row in data.iterrows():
         values = (
-            row['id'],
-            row['name'],
-            row['original_name'],
-            row['overview'] if not pd.isna(row["overview"]) else None,
-            row['in_production'],
-            row['status'],
-            row['original_language'],
-            row['first_air_date'] if not pd.isna(row["first_air_date"]) else None,
-            row['last_air_date'] if not pd.isna(row["last_air_date"]) else None,
-            row['number_of_episodes'] if not pd.isna(row["number_of_episodes"]) else None,
-            row['number_of_seasons'],
-            row['vote_average'],
-            row['vote_count'],
-            row['popularity']
+            row["id"],
+            row["name"],
+            row["original_name"],
+            row["overview"] if not pd.isna(row["overview"]) else None,
+            row["in_production"],
+            row["status"],
+            row["original_language"],
+            row["first_air_date"] if not pd.isna(row["first_air_date"]) else None,
+            row["last_air_date"] if not pd.isna(row["last_air_date"]) else None,
+            row["number_of_episodes"] if not pd.isna(row["number_of_episodes"]) else None,
+            row["number_of_seasons"],
+            row["vote_average"],
+            row["vote_count"],
+            row["popularity"],
         )
         _cursor.execute(insert_query, values)
 
