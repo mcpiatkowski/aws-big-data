@@ -23,3 +23,29 @@ Acceptance criteria:
 - Relevant fields are extracted from the JSON data and transformed into a DataFrame or Dataset.
 - Basic data aggregation operations are performed on the joined data, such as grouping by a specific column and calculating a count or sum.
 - Results are displayed or written to a specified output location.
+
+[All TV Series Details Dataset](https://www.kaggle.com/datasets/bourdier/all-tv-series-details-dataset)
+
+# Develop code for a simple Spark application
+
+Develop a simple Spark application that reads data from a dataset from references, performs transformations, and saves the result to a Parquet file.
+
+It is necessary to identify:
+
+- How many cali_ckn pizzas were ordered on 2015-01-04?
+- What ingredients does the pizza ordered on 2015-01-02 at 18:27:50 have?
+- What is the most sold category of pizza between 2015-01-01 and 2015-01-08?
+
+NOTE: While performing the task, use a dataset provided in the references.
+
+Acceptance criteria:
+
+- Spark session is set up and configured to run in local mode.
+- A CSV file containing sample data is loaded into a DataFrame.
+- Transformations, such as filtering, aggregation, or column manipulation, are applied to the DataFrame.
+- Action on the transformed DataFrame is triggered to perform the computation and collect the result.
+- Result is saved to a Parquet file.
+- Application handles exceptions or errors and provides appropriate error messages or logging.
+- The data is correctly processed and stored in a Parquet file.
+
+[Pizza Sales Dataset](https://www.kaggle.com/datasets/ylenialongo/pizza-sales)
