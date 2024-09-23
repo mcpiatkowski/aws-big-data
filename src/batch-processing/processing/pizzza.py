@@ -19,6 +19,7 @@ class PizzaData:
         pizza_types (DataFrame): Contains information about different pizza types.
         pizzas (DataFrame): Contains information about individual pizzas.
     """
+
     order_details: DataFrame
     orders: DataFrame
     pizza_types: DataFrame
