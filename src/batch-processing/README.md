@@ -49,3 +49,27 @@ Acceptance criteria:
 - The data is correctly processed and stored in a Parquet file.
 
 [Pizza Sales Dataset](https://www.kaggle.com/datasets/ylenialongo/pizza-sales)
+
+# Cluster mode
+
+Run a Spark job in the cluster mode using the Standalone deploy mode.
+
+Set up a Spark cluster and submit a Spark application to the cluster for execution that reads data from the dataset.
+
+It is necessary to:
+
+- Count the total number of words that start with abs.
+- Count the total number of words that have the third letter o.
+- Change the combination of letters ou with uou in all words that end with the letter s.
+
+NOTE: While performing the task, use a dataset provided in the references.
+
+Acceptance criteria:
+
+- A Spark cluster is set up in Standalone deploy mode.
+- Spark application that achieves a basic data processing task, such as word count or data aggregation, is written.
+- The Spark application is packaged into a JAR file.
+- The JAR file is submitted to the Spark cluster using the spark-submit command.
+- The expected output is produced, and the Spark job is completed successfully.
+
+[English Words Dataset](https://github.com/dwyl/english-words/blob/master/words.txt)
