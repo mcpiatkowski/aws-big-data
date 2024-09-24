@@ -73,3 +73,27 @@ Acceptance criteria:
 - The expected output is produced, and the Spark job is completed successfully.
 
 [English Words Dataset](https://github.com/dwyl/english-words/blob/master/words.txt)
+
+# Disease dataset
+
+Use distributed collections in Spark code
+
+Write Spark code that uses distributed collections (RDDs or DataFrames) to perform data processing operations. 
+
+Load a dataset from references, apply transformations, and perform computations on the distributed data using Spark's functional or relational operations.
+
+It is necessary to:
+
+- Count the total number of 30-year-old Males having Asthma.
+- Count the total number of Females with Hyperthyroidism with No Fever symptoms.
+- Identify whether the Sinusitis with Cough and Fatigue symptoms is predominant for males or females.
+
+NOTE: While performing the task, use a dataset provided in the references.
+
+Acceptance criteria:
+
+- A dataset is loaded (in a format of your choice, such as CSV or Parquet) into a distributed collection (RDD or DataFrame) in Spark.
+- At least two transformations are applied to the distributed collection, such as data filtering, mapping, or aggregating.
+- Computation or analysis is performed on the transformed data, such as calculating statistics or generating a summary report.
+- The Spark code runs without errors and produces the expected output or result.
+- Code is documented, explaining the purpose of each transformation and computation.

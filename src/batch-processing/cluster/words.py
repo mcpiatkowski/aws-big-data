@@ -71,11 +71,7 @@ def modify_words(df: DataFrame) -> DataFrame:
 if __name__ == "__main__":
     spark = create_spark_session("WordsAnalysis")
 
-    words = (
-        read_text_file("data/english_words/words.txt", spark)
-        .transform(explode_words)
-        .transform(modify_words)
-    )
+    words = read_text_file("data/english_words/words.txt", spark).transform(explode_words).transform(modify_words)
     abs_count = count_words_starting_with_abs(words)
     o_count = count_words_with_third_letter_o(words)
 

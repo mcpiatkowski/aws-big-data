@@ -4,7 +4,7 @@ It also shows how to join the data and collect the result.
 """
 
 import os
-from pyspark.sql import SparkSession, DataFrame
+from pyspark.sql import SparkSession, DataFrame, Row
 
 
 def create_spark_session() -> SparkSession:
@@ -83,6 +83,7 @@ def main() -> None:
 
     result: list[Row] = join_and_collect_data(mysql_df, json_data)
 
+    print(result[0])
     # Process or print result as needed
 
     spark.stop()
