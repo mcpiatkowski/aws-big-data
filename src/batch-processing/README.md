@@ -97,3 +97,26 @@ Acceptance criteria:
 - Computation or analysis is performed on the transformed data, such as calculating statistics or generating a summary report.
 - The Spark code runs without errors and produces the expected output or result.
 - Code is documented, explaining the purpose of each transformation and computation.
+
+# Errors Handling
+
+Handle and log errors that may occur during Spark batch processing.
+
+Implement error-handling mechanisms, such as exception handling, logging, and alerting, to ensure that errors are captured, and appropriate actions are taken.
+
+Write a simple Spark batch processing script that performs a data processing task on a dataset or use an existing one.
+
+To handle errors:
+
+- Print in the terminal all logs at the debug level.
+- Save all logs at the warning level and above in the log file.
+- Create a specific message to be stored for a warning level.
+- Apply appropriate fixes or modifications to address the identified defects at the error level.
+NOTE: While performing the task, use a dataset provided in the references.
+
+Acceptance criteria:
+
+- The error-handling mechanisms are implemented within the script to catch and handle any errors that may occur during execution.
+- The error messages or relevant information are logged to a log file or a suitable logging mechanism.
+- The run-time information, such as execution time, resource utilisation, and data processing statistics, is captured.
+- The error-handling mechanism is demonstrated by intentionally introducing a simulated error or exception and verifying that it is properly handled, logged, and alerted.
