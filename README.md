@@ -46,6 +46,29 @@ New user:
 `FLUSH PRIVILEGES;`
 
 Changing password:
+
 `ALTER USER 'user'@'localhost' IDENTIFIED BY 'new_password';`
 
 `FLUSH PRIVILEGES;`
+
+# Local Cluster Setup
+
+We can set up a spark cluster in standalone mode locally.
+
+The following commands are used on macOS with Spark installed via Homebrew.
+
+Start Spark master:
+
+`spark-class org.apache.spark.deploy.master.Master`
+
+After the master node has started it will print the url of the UI.
+
+You can find url of the master node in the UI. You will need it to start worker nodes.
+
+Start worker nodes:
+
+`spark-class org.apache.spark.deploy.worker.Worker spark://localhost:7077`
+
+Submit a script to the cluster:
+
+`spark-submit --master spark://192.168.1.2:7077 src/batch-processing/reading/necessary.py`
