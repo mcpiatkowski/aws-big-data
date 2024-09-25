@@ -1,10 +1,23 @@
 """Spark application for batch module."""
 
+import sys
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import explode, col
+import argparse
 import logging
 
-log = logging.getLogger("Aws Big Data")
+formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
+log = logging.getLogger("Tv Series Analysis")
+
+console_handler = logging.StreamHandler(sys.stdout)
+console_handler.setLevel(logging.DEBUG)
+console_handler.setFormatter(formatter)
+log.addHandler(console_handler)
+
+file_handler = logging.FileHandler("spark_series.log")
+file_handler.setLevel(logging.DEBUG)
+file_handler.setFormatter(formatter)
+log.addHandler(file_handler)
 
 
 def get_spark_session():
@@ -16,9 +29,12 @@ def get_spark_session():
 
 def read_data(session: SparkSession, path: str):
     """Read data."""
-    log.info("Reading data...")
-
-    return session.read.json(path, multiLine=True)
+    log.info(f"Reading data from {path}...")
+    try:
+        return session.read.json(path, multiLine=True)
+    except Exception as e:
+        log.error(f"Failed to read data from {path} with error: {e}")
+        raise
 
 
 def log_stats(data):
@@ -57,8 +73,12 @@ def write_to_parquet(data, path: str) -> None:
 
 
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="Spark application for batch module.")
+    parser.add_argument("--path", type=str, help="Path to the JSON file", required=True)
+    args = parser.parse_args()
+
     spark = get_spark_session()
-    series = read_data(spark, "data/tvs/tvs.json")
+    series = read_data(spark, args.path)
 
     log_stats(series)
 
