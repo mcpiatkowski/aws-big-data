@@ -66,8 +66,8 @@ if __name__ == "__main__":
     popular_countries = get_popular_countries(series)
     short_series = get_short_series(series)
 
-    write_to_parquet(cancelled_creators, "data/transformed/cancelled_creators")
-    write_to_parquet(popular_countries, "data/transformed/popular_countries")
-    write_to_parquet(short_series, "data/transformed/short_series")
+    write_to_parquet(cancelled_creators, "data/tvs/transformed/cancelled_creators")
+    write_to_parquet(popular_countries, "data/tvs/transformed/popular_countries")
+    write_to_parquet(short_series, "data/tvs/transformed/short_series")
 
     spark.stop()
