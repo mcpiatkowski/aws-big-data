@@ -16,7 +16,6 @@ def create_spark_session() -> SparkSession:
     return (
         SparkSession.builder.appName("mysql-spark")
         .config("spark.jars", "mysql-connector-j-9.0.0.jar")
-        .config("spark.hadoop.home.dir", "hadoop")
         .getOrCreate()
     )
 

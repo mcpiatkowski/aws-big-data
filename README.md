@@ -2,22 +2,9 @@
  
 This is a collection of artefacts needed for Peex evaluation.
 
-## Dependencies ##
+# Spark Setup #
 
-To run spark scripts, we need to handle additional dependencies:
-- hadoop winutils (windows only)
-- mysql connector
-
-### Winutils ###
-
-Spark was originally designed for Unix-like systems and relies on some Unix utilities that are not natively available on Windows.  
-Winutils provides Windows-compatible versions of these Unix utilities, allowing Spark to run properly on Windows systems.
-
-We need to copy winutils into the `hadoop/bin` directory.
-
-https://github.com/steveloughran/winutils/tree/master
-
-### Spark Download ###
+Download Spark
 
 https://spark.apache.org/downloads.html
 
@@ -29,27 +16,19 @@ Path: %SPARK_HOME%\bin
 HADOOP_HOME: <hadoop_home_dir>  
 Path: %HADOOP_HOME%\bin
 
-## MySQL Setup ##
+## Windows Dependencies ##
 
-Steps to follow:
-- Install MySQL using Homebrew: `brew install mysql`
-- Start the MySQL service: `brew services start mysql`
-- Set a root password: `mysql_secure_installation`
-- Connect to MySQL: `mysql -u root -p`
+To run spark scripts, we need to handle additional dependencies:
+- hadoop winutils (windows only)
 
-New user:
+### Winutils ###
 
-`CREATE USER 'newuser'@'localhost' IDENTIFIED BY 'password';`
+Spark was originally designed for Unix-like systems and relies on some Unix utilities that are not natively available on Windows.  
+Winutils provides Windows-compatible versions of these Unix utilities, allowing Spark to run properly on Windows systems.
 
-`GRANT ALL PRIVILEGES ON *.* TO 'newuser'@'localhost' WITH GRANT OPTION;`
+We need to copy winutils into the `hadoop/bin` directory.
 
-`FLUSH PRIVILEGES;`
-
-Changing password:
-
-`ALTER USER 'user'@'localhost' IDENTIFIED BY 'new_password';`
-
-`FLUSH PRIVILEGES;`
+https://github.com/steveloughran/winutils/tree/master
 
 # Local Cluster Setup
 
@@ -72,3 +51,37 @@ Start worker nodes:
 Submit a script to the cluster:
 
 `spark-submit --master spark://192.168.1.2:7077 src/batch-processing/reading/necessary.py`
+
+# MySQL Setup #
+
+Steps to follow:
+- Install MySQL using Homebrew: `brew install mysql`
+- Start the MySQL service: `brew services start mysql`
+- Set a root password: `mysql_secure_installation`
+- Connect to MySQL: `mysql -u root -p`
+
+New user:
+
+`CREATE USER 'newuser'@'localhost' IDENTIFIED BY 'password';`
+
+`GRANT ALL PRIVILEGES ON *.* TO 'newuser'@'localhost' WITH GRANT OPTION;`
+
+`FLUSH PRIVILEGES;`
+
+Changing password:
+
+`ALTER USER 'user'@'localhost' IDENTIFIED BY 'new_password';`
+
+`FLUSH PRIVILEGES;`
+
+## JDBC Connection ##
+
+Download the driver:
+
+[MySQL JDBC Driver](https://dev.mysql.com/downloads/connector/j/)
+
+There is additional configuration to be done and can be found inside the script. Make sure your database is running.
+
+Read the data using Spark:
+
+`spark-submit --jars mysql-connector-j-9.0.0.jar src/batch_processing/tv/optional_mysql_read.py`
