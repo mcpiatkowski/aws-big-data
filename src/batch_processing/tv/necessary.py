@@ -8,7 +8,7 @@ from argparse import Namespace
 from pyspark.sql import DataFrame, SparkSession
 from pyspark.sql.functions import col, explode
 
-formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
+formatter = logging.Formatter(fmt="%(asctime)s %(levelname)s %(name)s: %(message)s", datefmt="%y/%m/%d %H:%M:%S")
 log = logging.getLogger("Tv Series Analysis")
 
 console_handler = logging.StreamHandler(sys.stdout)
