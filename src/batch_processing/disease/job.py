@@ -1,5 +1,5 @@
-import sys
 import logging
+import sys
 
 from pyspark.sql import DataFrame, SparkSession
 from pyspark.sql.functions import col, count

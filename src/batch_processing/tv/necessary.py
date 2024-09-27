@@ -48,7 +48,7 @@ def log_stats(data) -> None:
 
 
 def get_cancelled_creators(data) -> DataFrame:
-    """Retrieve all names of created_by with the status Cancelled."""
+    """Retrieve all names of created_by with the status Canceled."""
     log.info("Retrieving cancelled creators...")
 
     return data.filter(col("status") == "Canceled").select(explode("created_by.name").alias("creator_name")).distinct()
