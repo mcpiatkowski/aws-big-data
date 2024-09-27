@@ -1,7 +1,15 @@
 """Processing words using Spark in cluster mode."""
 
-from pyspark.sql import SparkSession, DataFrame
-from pyspark.sql.functions import col, explode, split, lower, regexp_replace, when, substring
+from pyspark.sql import DataFrame, SparkSession
+from pyspark.sql.functions import (
+    col,
+    explode,
+    lower,
+    regexp_replace,
+    split,
+    substring,
+    when,
+)
 
 
 def create_spark_session(app_name: str) -> SparkSession:

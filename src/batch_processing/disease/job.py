@@ -1,5 +1,6 @@
 import logging
-from pyspark.sql import SparkSession, DataFrame
+
+from pyspark.sql import DataFrame, SparkSession
 from pyspark.sql.functions import col, count
 
 logging.basicConfig(level=logging.INFO)

@@ -1,8 +1,13 @@
-import os
-import mysql.connector
-import pandas as pd
+"""MySQL data loading."""
+
 import json
 import logging
+import os
+
+import mysql.connector
+import pandas as pd
+from mysql.connector.cursor import MySQLCursor
+from mysql.connector.pooling import PooledMySQLConnection
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
 log = logging.getLogger("MySQL Data Loading")
@@ -24,9 +29,10 @@ def read_sql_query(file_path: str) -> str:
         return file.read()
 
 
-def create_connection():
+def create_connection() -> PooledMySQLConnection:
     """Create a database connection."""
     log.info("Creating database connection...")
+
     return mysql.connector.connect(
         host="localhost", user=os.getenv("MYSQL_USER"), password=os.getenv("MYSQL_PASSWORD"), database="aws_big_data"
     )
@@ -42,6 +48,7 @@ def create_tvs_table(_cursor) -> None:
 def clean_data(data: pd.DataFrame) -> pd.DataFrame:
     """Clean data."""
     log.info("Cleaning data...")
+
     return (
         data[data["id"] != 60606]
         .assign(last_air_date=pd.to_datetime(data["last_air_date"], errors="coerce").dt.date)
@@ -77,8 +84,8 @@ def insert_data(_cursor, data: pd.DataFrame) -> None:
 if __name__ == "__main__":
     series: pd.DataFrame = read_data("data/tvs/tvs.json").pipe(clean_data)
 
-    connection = create_connection()
-    cursor = connection.cursor()
+    connection: PooledMySQLConnection = create_connection()
+    cursor: MySQLCursor = connection.cursor()
 
     create_tvs_table(cursor)
     insert_data(cursor, series)

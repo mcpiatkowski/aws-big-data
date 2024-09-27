@@ -1,6 +1,14 @@
 # aws-big-data #
  
-This is a collection of artefacts needed for Peex evaluation.
+This is a collection of artifacts needed for Peex evaluation.
+
+## Venv ##
+
+Python environment is handled by [PDM](https://pdm-project.org/en/latest/)
+
+With PDM installed run:
+
+`pdm install`
 
 # Spark Setup #
 

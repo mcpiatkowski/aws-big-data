@@ -166,3 +166,7 @@ data/
 
 # We don't want to track the ipynb files as they are not necessary to have in the repo.
 *.ipynb
+
+# macOS specific
+
+.DS_Store
