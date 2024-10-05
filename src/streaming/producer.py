@@ -1,4 +1,4 @@
-"""Reddit to Kafka Producer."""
+"""Reddit Kafka producer."""
 
 import json
 import logging
@@ -67,7 +67,7 @@ def main() -> None:
     }
     kafka_config: dict[str, list[str]] = {"bootstrap_servers": ["localhost:9092"]}
     subreddit_name: str = "programming"
-    topic_name: str = "reddit_posts"
+    topic_name: str = "reddit-posts"
     post_limit: int = 10
 
     # Create clients

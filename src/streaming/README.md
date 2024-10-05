@@ -35,21 +35,21 @@ Or, if you don't want/need a background service you can just run:
 
 Create test topic:
 
-`kafka-topics --create --topic test-topic --bootstrap-server localhost:9092`
+`kafka-topics --create --topic reddit-posts --bootstrap-server localhost:9092`
 
-`kafka-topics --describe --topic test-topic --bootstrap-server localhost:9092`
+`kafka-topics --describe --topic reddit-posts --bootstrap-server localhost:9092`
 
 Produce messages:
 
-`kafka-console-producer --topic test-topic --bootstrap-server localhost:9092`
+`kafka-console-producer --topic reddit-posts --bootstrap-server localhost:9092`
 
 Consume messages:
 
-`kafka-console-consumer --topic test-topic --from-beginning --bootstrap-server localhost:9092`
+`kafka-console-consumer --topic reddit-posts --from-beginning --bootstrap-server localhost:9092`
 
 Delete topic:
 
-`kafka-topics --delete --topic test-topic --bootstrap-server localhost:9092`
+`kafka-topics --delete --topic reddit-posts --bootstrap-server localhost:9092`
 
 List topics:
 
