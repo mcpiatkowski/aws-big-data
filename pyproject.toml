@@ -1,7 +1,7 @@
 [project]
 name = "aws-big-data"
 version = "0.1.0"
-description = "Default template for PDM package"
+description = "AWS Big Data Peex Artifacts"
 authors = [
     {name = "MICHAL PIATKOWSKI", email = "mcpiatkowski@gmail.com"},
 ]
@@ -9,6 +9,8 @@ dependencies = [
     "pyspark>=3.5.2",
     "mysql-connector-python>=9.0.0",
     "pandas>=2.2.2",
+    "praw>=7.7.1",
+    "kafka-python>=2.0.2",
 ]
 requires-python = "==3.11.*"
 readme = "README.md"
@@ -22,3 +24,6 @@ distribution = false
 dev = [
     "jupyter>=1.1.1",
 ]
+
+[tool.ruff]
+line-length = 120
