@@ -54,7 +54,6 @@ def main() -> None:
 
     logger.info("Consumer started. Waiting for messages...")
     for message in consumer:
-        print(f"Message type: {type(message)}")
         process_message(message)
 
 
