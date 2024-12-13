@@ -2,27 +2,22 @@
 name = "aws-big-data"
 version = "0.1.0"
 description = "AWS Big Data Peex Artifacts"
-authors = [
-    {name = "MICHAL PIATKOWSKI", email = "mcpiatkowski@gmail.com"},
-]
+readme = "README.md"
+requires-python = "==3.11.*"
 dependencies = [
+    "aws-cdk-lib==2.172.0",
+    "constructs>=10.0.0,<11.0.0",
     "pyspark>=3.5.2",
     "mysql-connector-python>=9.0.0",
     "pandas>=2.2.2",
     "praw>=7.7.1",
     "kafka-python>=2.0.2",
 ]
-requires-python = "==3.11.*"
-readme = "README.md"
-license = {text = "MIT"}
 
-
-[tool.pdm]
-distribution = false
-
-[tool.pdm.dev-dependencies]
+[dependency-groups]
 dev = [
     "jupyter>=1.1.1",
+    "pytest==6.2.5"
 ]
 
 [tool.ruff]

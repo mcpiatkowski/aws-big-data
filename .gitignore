@@ -170,3 +170,10 @@ data/
 # macOS specific
 
 .DS_Store
+
+# CDK asset staging directory
+.cdk.staging
+cdk.out
+
+*.swp
+package-lock.json
