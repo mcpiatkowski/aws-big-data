@@ -2,6 +2,7 @@
 
 import json
 import logging
+
 from kafka import KafkaConsumer
 from kafka.consumer.fetcher import ConsumerRecord
 

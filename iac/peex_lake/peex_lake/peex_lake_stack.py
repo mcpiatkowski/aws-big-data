@@ -1,12 +1,10 @@
-from aws_cdk import (
-    Stack,
-    aws_s3 as s3,
-    aws_iam as iam,
-    aws_glue as glue,
-    aws_lakeformation as lakeformation,
-    RemovalPolicy,
-    CfnOutput,
-)
+"""Lake Formation stack."""
+
+from aws_cdk import CfnOutput, RemovalPolicy, Stack
+from aws_cdk import aws_glue as glue
+from aws_cdk import aws_iam as iam
+from aws_cdk import aws_lakeformation as lakeformation
+from aws_cdk import aws_s3 as s3
 from constructs import Construct
 
 
@@ -16,7 +14,8 @@ class PeexLakeStack(Stack):
 
         # Create S3 Bucket
         bronze_layer_bucket = s3.Bucket(
-            self, "BronzeLayerBucket",
+            self,
+            "BronzeLayerBucket",
             auto_delete_objects=True,
             removal_policy=RemovalPolicy.DESTROY,
             block_public_access=s3.BlockPublicAccess.BLOCK_ALL,
@@ -24,9 +23,10 @@ class PeexLakeStack(Stack):
 
         # Create IAM role for Lake Formation
         lake_formation_role = iam.Role(
-            self, "LakeFormationServiceRole",
+            self,
+            "LakeFormationServiceRole",
             assumed_by=iam.ServicePrincipal("lakeformation.amazonaws.com"),
-            description="Role used by AWS Lake Formation to access data lake resources"
+            description="Role used by AWS Lake Formation to access data lake resources",
         )
 
         # Grant Lake Formation role access to the S3 bucket
@@ -43,62 +43,60 @@ class PeexLakeStack(Stack):
                     "glue:CreateTable",
                     "glue:UpdateTable",
                     "glue:DeleteTable",
-                    "glue:GetUserDefinedFunctions"
+                    "glue:GetUserDefinedFunctions",
                 ],
-                resources=["*"]  # For POC. In production, you should restrict this
+                resources=["*"],  # For POC. In production, you should restrict this
             )
         )
 
         # Set up Lake Formation Admin settings with IAM user
-        cli_user_arn = f"arn:aws:iam::{Stack.of(self).account}:user/cli"  # ARN for your cli user
+        cli_user_arn = f"arn:aws:iam::{Stack.of(self).account}:user/cli"
 
         lakeformation.CfnDataLakeSettings(
-            self, "DataLakeSettings",
+            self,
+            "DataLakeSettings",
             admins=[
-                lakeformation.CfnDataLakeSettings.DataLakePrincipalProperty(
-                    data_lake_principal_identifier=cli_user_arn
-                )
-            ]
+                lakeformation.CfnDataLakeSettings.DataLakePrincipalProperty(data_lake_principal_identifier=cli_user_arn)
+            ],
         )
 
         # Register the S3 bucket as a Lake Formation location
         lakeformation.CfnResource(
-            self, "RegisterS3Location",
-            resource_arn=bronze_layer_bucket.bucket_arn,
-            use_service_linked_role=True
+            self, "RegisterS3Location", resource_arn=bronze_layer_bucket.bucket_arn, use_service_linked_role=True
         )
 
         # Create Lake Formation Database
         bronze_db = glue.CfnDatabase(
-            self, "BronzeDatabase",
+            self,
+            "BronzeDatabase",
             catalog_id=Stack.of(self).account,
             database_input=glue.CfnDatabase.DatabaseInputProperty(
                 name="bronze_db",
                 description="Bronze layer database for raw data",
                 location_uri=f"s3://{bronze_layer_bucket.bucket_name}/",
-            )
+            ),
         )
 
         # Grant Lake Formation permissions for the database to the admin user
         lakeformation.CfnPermissions(
-            self, "BronzeDatabasePermissions",
+            self,
+            "BronzeDatabasePermissions",
             data_lake_principal=lakeformation.CfnPermissions.DataLakePrincipalProperty(
                 data_lake_principal_identifier=cli_user_arn
             ),
             resource=lakeformation.CfnPermissions.ResourceProperty(
-                database_resource=lakeformation.CfnPermissions.DatabaseResourceProperty(
-                    name=bronze_db.ref
-                )
+                database_resource=lakeformation.CfnPermissions.DatabaseResourceProperty(name=bronze_db.ref)
             ),
             permissions=["ALL"],
-            permissions_with_grant_option=["ALL"]
+            permissions_with_grant_option=["ALL"],
         )
 
         # Create IAM role for Glue Crawler
         crawler_role = iam.Role(
-            self, "GlueCrawlerRole",
+            self,
+            "GlueCrawlerRole",
             assumed_by=iam.ServicePrincipal("glue.amazonaws.com"),
-            description="Role used by AWS Glue Crawler to access data lake resources"
+            description="Role used by AWS Glue Crawler to access data lake resources",
         )
 
         # Add required policies for the Glue Crawler role
@@ -111,28 +109,26 @@ class PeexLakeStack(Stack):
 
         # Add Lake Formation permissions for the Crawler role
         lakeformation.CfnPermissions(
-            self, "CrawlerDatabasePermissions",
+            self,
+            "CrawlerDatabasePermissions",
             data_lake_principal=lakeformation.CfnPermissions.DataLakePrincipalProperty(
                 data_lake_principal_identifier=crawler_role.role_arn
             ),
             resource=lakeformation.CfnPermissions.ResourceProperty(
-                database_resource=lakeformation.CfnPermissions.DatabaseResourceProperty(
-                    name=bronze_db.ref
-                )
+                database_resource=lakeformation.CfnPermissions.DatabaseResourceProperty(name=bronze_db.ref)
             ),
-            permissions=["CREATE_TABLE", "ALTER", "DROP"]
+            permissions=["CREATE_TABLE", "ALTER", "DROP"],
         )
 
         # Create Glue Crawler
         glue.CfnCrawler(
-            self, "BronzeLayerCrawler",
+            self,
+            "BronzeLayerCrawler",
             name="bronze-layer-crawler",
             role=crawler_role.role_arn,
             database_name=bronze_db.ref,
             targets=glue.CfnCrawler.TargetsProperty(
-                s3_targets=[glue.CfnCrawler.S3TargetProperty(
-                    path=f"s3://{bronze_layer_bucket.bucket_name}/"
-                )]
+                s3_targets=[glue.CfnCrawler.S3TargetProperty(path=f"s3://{bronze_layer_bucket.bucket_name}/")]
             ),
         )
 

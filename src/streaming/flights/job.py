@@ -1,10 +1,11 @@
 """Streaming pipeline for flight data analysis from Kafka using PySpark."""
 
 from datetime import date
-from pyspark.sql import SparkSession, DataFrame
-from pyspark.sql.types import StructType, StructField, StringType, TimestampType
-from pyspark.sql.functions import col, from_json, window, to_date, lit
+
+from pyspark.sql import DataFrame, SparkSession
+from pyspark.sql.functions import col, from_json, lit, to_date, window
 from pyspark.sql.streaming import StreamingQuery
+from pyspark.sql.types import StringType, StructField, StructType, TimestampType
 
 
 def create_spark_session(app_name: str) -> SparkSession:

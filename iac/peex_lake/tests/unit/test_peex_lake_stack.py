@@ -1,6 +1,5 @@
 import aws_cdk as core
 import aws_cdk.assertions as assertions
-
 from peex_lake.peex_lake_stack import PeexLakeStack
 
 
